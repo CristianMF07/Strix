@@ -1,0 +1,114 @@
+/* ============================================================
+   STRIX – Sidebar
+   ============================================================ */
+
+.layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--strix-navy);
+  border-right: 1px solid var(--strix-border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: transform .3s ease;
+}
+
+.sidebar .sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0;
+}
+
+.sidebar-section {
+  padding: .4rem 1.1rem .2rem;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--strix-muted);
+  margin-top: .5rem;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: .65rem 1.1rem;
+  color: var(--strix-muted);
+  text-decoration: none;
+  font-size: .83rem;
+  font-weight: 500;
+  letter-spacing: .03em;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+
+.sidebar a i { font-size: 1rem; }
+
+.sidebar a:hover,
+.sidebar a.active {
+  color: var(--strix-text);
+  background: rgba(245, 166, 35, .08);
+  border-left-color: var(--strix-orange);
+}
+
+.sidebar a .badge-count {
+  margin-left: auto;
+  background: var(--strix-orange);
+  color: #fff;
+  font-size: .65rem;
+  padding: 1px 6px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.sidebar-footer {
+  padding: 1rem 1.1rem;
+  border-top: 1px solid var(--strix-border);
+}
+
+.btn-logout {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  width: 100%;
+  background: rgba(234, 84, 85, .12);
+  border: 1px solid rgba(234, 84, 85, .3);
+  color: var(--strix-danger);
+  border-radius: 8px;
+  padding: .6rem 1rem;
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.btn-logout:hover { background: rgba(234, 84, 85, .22); }
+
+/* Mobile overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .55);
+  z-index: 1024;
+}
+
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    z-index: 1025;
+    transform: translateX(-100%);
+  }
+
+  .sidebar.open         { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+}

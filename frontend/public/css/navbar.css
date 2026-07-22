@@ -1,0 +1,170 @@
+/* ============================================================
+   STRIX – Topbar / Navbar
+   ============================================================ */
+
+.topbar {
+  background: var(--strix-navy);
+  border-bottom: 3px solid var(--strix-orange);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  gap: 1rem;
+}
+
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.topbar .brand-icon {
+  background: var(--strix-orange);
+  width: 38px;
+  height: 38px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.topbar .brand-name {
+  color: var(--strix-text);
+  font-size: .9rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  line-height: 1.1;
+}
+
+.topbar .brand-sub {
+  color: var(--strix-muted);
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.topbar .store-title {
+  flex: 1;
+  text-align: center;
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--strix-muted);
+}
+
+.topbar .user-area {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-shrink: 0;
+}
+
+.topbar .user-info { text-align: right; }
+
+.topbar .user-name {
+  font-size: .82rem;
+  font-weight: 700;
+  color: var(--strix-text);
+  text-transform: uppercase;
+}
+
+.topbar .user-role {
+  font-size: .65rem;
+  color: var(--strix-muted);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.topbar .avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--strix-orange);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.topbar .btn-home {
+  background: var(--strix-border);
+  color: var(--strix-text);
+  border: none;
+  border-radius: 7px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  font-size: .95rem;
+  transition: background .2s;
+  cursor: pointer;
+}
+
+.topbar .btn-home:hover { background: var(--strix-orange); }
+
+/* Login navbar extras */
+.strix-navbar {
+  background: var(--strix-navy);
+  border-bottom: 3px solid var(--strix-orange);
+  padding: .75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.strix-navbar .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.strix-navbar .nav-actions a {
+  color: var(--strix-muted);
+  font-size: .8rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  transition: color .2s;
+}
+
+.strix-navbar .nav-actions a:hover { color: var(--strix-orange); }
+
+.strix-navbar .nav-actions .btn-home {
+  background: var(--strix-border);
+  color: var(--strix-text);
+  border: none;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  transition: background .2s;
+}
+
+.strix-navbar .nav-actions .btn-home:hover { background: var(--strix-orange); }
+
+/* Hamburger – mobile only */
+.btn-hamburger {
+  background: none;
+  border: none;
+  color: var(--strix-text);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0;
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .btn-hamburger   { display: block; }
+  .topbar .store-title { display: none; }
+}

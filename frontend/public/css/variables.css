@@ -1,0 +1,34 @@
+/* ============================================================
+   STRIX – Shop Manager | Variables & Base
+   ============================================================ */
+
+:root {
+  --strix-dark:    #12151C;
+  --strix-navy:    #1A2035;
+  --strix-navy2:   #202840;
+  --strix-orange:  #F5A623;
+  --strix-orange2: #E8920F;
+  --strix-light:   #F5F6FA;
+  --strix-border:  #2E3650;
+  --strix-text:    #EAEAEA;
+  --strix-muted:   #8A93A8;
+  --strix-success: #28C76F;
+  --strix-warning: #FF9F43;
+  --strix-danger:  #EA5455;
+  --sidebar-w:     240px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--strix-dark);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: var(--strix-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

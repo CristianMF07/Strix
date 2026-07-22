@@ -1,0 +1,70 @@
+<!-- ══════════ NAVBAR ══════════ -->
+<nav class="strix-navbar">
+    <a href="#" class="brand" style="display:flex;align-items:center;gap:.65rem;text-decoration:none;">
+        <div class="brand-icon"
+            style="background:var(--strix-orange);width:38px;height:38px;border-radius:7px;display:grid;place-items:center;font-size:1.1rem;color:#fff;">
+            <i class="bi bi-bag-fill"></i>
+        </div>
+        <div>
+            <div class="brand-name">STRIX</div>
+            <div class="brand-sub">Shop Manager</div>
+        </div>
+    </a>
+
+    <div class="store-title d-none d-md-block"
+        style="flex:1;text-align:center;font-size:.82rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--strix-muted);">
+        Tienda Virtual de Ropa y Accesorios
+    </div>
+
+    <div class="nav-actions">
+        <a href="#">Iniciar Sesión</a>
+        <a href="#">Registrarse</a>
+        <a href="#" class="btn-home"><i class="bi bi-house-fill"></i></a>
+    </div>
+</nav>
+
+<!-- ══════════ SECTION BANNER ══════════ -->
+<div class="section-banner">
+    <i class="bi bi-door-open" style="color:var(--strix-orange);"></i>
+    <span>Bienvenido (a)</span>
+</div>
+
+<!-- ══════════ LOGIN FORM ══════════ -->
+<div class="login-wrapper">
+    <div class="login-card">
+        <div class="login-avatar">
+            <i class="bi bi-person-fill"></i>
+        </div>
+
+        <h2>Iniciar Sesión</h2>
+
+        <div class="mb-3">
+            <label class="strix-label">Usuario</label>
+            <input type="text" class="form-control strix-input" placeholder="Tu usuario o correo" />
+        </div>
+
+        <div class="mb-4">
+            <label class="strix-label">Contraseña</label>
+            <div class="strix-input-group">
+                <input type="password" class="form-control strix-input pe-5" id="pwField" placeholder="••••••••" />
+                <button class="toggle-pw" onclick="togglePw()" type="button" title="Mostrar/ocultar">
+                    <i class="bi bi-eye" id="eyeIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <a routerLink="/dashboard" class="btn-strix"
+            style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
+        </a>
+
+        <div class="login-footer mt-3">
+            ¿No tiene un usuario? <a href="#">Regístrese</a>
+        </div>
+        <div class="login-footer mt-1">
+            <a href="#">Olvidé mi contraseña</a>
+        </div>
+    </div>
+</div>
+
+<footer>© 2025 STRIX Shop Manager — Todos los derechos reservados</footer>

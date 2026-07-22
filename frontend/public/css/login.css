@@ -1,0 +1,104 @@
+/* ============================================================
+   STRIX – Login Page
+   ============================================================ */
+
+.login-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.login-card {
+  background: var(--strix-navy);
+  border: 1px solid var(--strix-border);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+.login-avatar {
+  width: 88px;
+  height: 88px;
+  background: var(--strix-orange);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 2.5rem;
+  color: #fff;
+  margin: -3.5rem auto 1.5rem;
+  border: 4px solid var(--strix-dark);
+}
+
+.login-card h2 {
+  color: var(--strix-text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.strix-label {
+  display: block;
+  color: var(--strix-muted);
+  font-size: .75rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: .4rem;
+}
+
+.strix-input {
+  background: var(--strix-dark) !important;
+  border: 1px solid var(--strix-border) !important;
+  border-radius: 8px !important;
+  color: var(--strix-text) !important;
+  height: 46px;
+  font-size: .95rem;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.strix-input:focus {
+  border-color: var(--strix-orange) !important;
+  box-shadow: 0 0 0 3px rgba(245, 166, 35, .2) !important;
+  outline: none;
+}
+
+.strix-input::placeholder { color: var(--strix-border) !important; }
+
+.strix-input-group { position: relative; }
+
+.strix-input-group .toggle-pw {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--strix-muted);
+  cursor: pointer;
+  padding: 0;
+  font-size: 1rem;
+}
+
+.strix-input-group .toggle-pw:hover { color: var(--strix-orange); }
+
+.login-footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: .8rem;
+  color: var(--strix-muted);
+}
+
+.login-footer a {
+  color: var(--strix-orange);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-footer a:hover { text-decoration: underline; }
