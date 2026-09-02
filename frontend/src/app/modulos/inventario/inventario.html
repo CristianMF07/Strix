@@ -1,0 +1,149 @@
+<div class="main-content">
+
+  <!-- BREADCRUMB -->
+  <nav class="strix-breadcrumb" aria-label="breadcrumb">
+    <a href="#"><i class="bi bi-house-fill"></i></a>
+    <span class="sep">/</span>
+    <span class="current">Inventario</span>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1><i class="bi bi-archive" style="color:var(--strix-orange);margin-right:.4rem;"></i>Inventario</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de stock e inventario</div>
+    </div>
+    <button class="btn-strix-sm" (click)="toggleFormulario()">
+      <i class="bi bi-plus-lg"></i> Nuevo Registro
+    </button>
+  </div>
+
+  <!-- FORMULARIO INSERTAR -->
+  <div class="strix-card" *ngIf="mostrarFormulario">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-plus-circle"></i> Nuevo Registro de Inventario
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Stock Actual</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoInventario.stockactual" placeholder="Ej: 50"/>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Stock Mínimo</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoInventario.stockminimo" placeholder="Ej: 10"/>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Última Actualización</label>
+          <input type="date" class="strix-input form-control"
+                 [(ngModel)]="nuevoInventario.ultima_actualizacion"/>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Registro Movimientos</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoInventario.registromovimientos" placeholder="Ej: Entrada inicial"/>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="insertar()">
+            <i class="bi bi-save"></i> Guardar
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="toggleFormulario()">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULARIO EDITAR -->
+  <div class="strix-card" *ngIf="mostrarFormularioEditar">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-pencil-square"></i> Editar Registro de Inventario
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Stock Actual</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="inventarioEditar.stockactual"/>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Stock Mínimo</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="inventarioEditar.stockminimo"/>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Última Actualización</label>
+          <input type="date" class="strix-input form-control"
+                 [(ngModel)]="inventarioEditar.ultima_actualizacion"/>
+        </div>
+        <div class="col-12 col-md-3">
+          <label class="strix-label">Registro Movimientos</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="inventarioEditar.registromovimientos"/>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="editar()">
+            <i class="bi bi-save"></i> Guardar Cambios
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="mostrarFormularioEditar = false">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DE INVENTARIO -->
+  <div class="strix-card">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-list-ul"></i> Lista de Inventario
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Stock Actual</th>
+            <th>Stock Mínimo</th>
+            <th>Última Actualización</th>
+            <th>Registro Movimientos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of inventarios ?? []">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_inventario }}</td>
+            <td>{{ item.stockactual }}</td>
+            <td>{{ item.stockminimo }}</td>
+            <td>{{ item.ultima_actualizacion }}</td>
+            <td>{{ item.registromovimientos }}</td>
+            <td>
+              <div class="tbl-actions">
+                <button class="btn-edit" title="Editar"
+                        (click)="abrirEditar(item)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-del" title="Eliminar"
+                        (click)="eliminar(item.id_inventario)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

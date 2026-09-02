@@ -4,17 +4,17 @@
   <nav class="strix-breadcrumb" aria-label="breadcrumb">
     <a href="#"><i class="bi bi-house-fill"></i></a>
     <span class="sep">/</span>
-    <span class="current">Productos e Inventario</span>
+    <span class="current">Proveedores</span>
   </nav>
 
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div>
-      <h1><i class="bi bi-box-seam" style="color:var(--strix-orange);margin-right:.4rem;"></i>Productos</h1>
-      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de productos e inventario</div>
+      <h1><i class="bi bi-truck" style="color:var(--strix-orange);margin-right:.4rem;"></i>Proveedores</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de proveedores</div>
     </div>
     <button class="btn-strix-sm" (click)="toggleFormulario()">
-      <i class="bi bi-plus-lg"></i> Nuevo Producto
+      <i class="bi bi-plus-lg"></i> Nuevo Proveedor
     </button>
   </div>
 
@@ -22,40 +22,35 @@
   <div class="strix-card" *ngIf="mostrarFormulario">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-plus-circle"></i> Nuevo Producto
+        <i class="bi bi-plus-circle"></i> Nuevo Proveedor
       </div>
     </div>
     <div class="strix-card-body">
       <div class="row g-3">
         <div class="col-12 col-md-4">
-          <label class="strix-label">Nombre</label>
+          <label class="strix-label">Nombre Empresa</label>
           <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.nombre" placeholder="Nombre del producto"/>
+                 [(ngModel)]="nuevoProveedor.nombre_empresa" placeholder="Nombre de la empresa"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">Tipo</label>
+          <label class="strix-label">Producto Ofrecido</label>
           <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.tipo" placeholder="Ej: Camiseta, Zapato..."/>
+                 [(ngModel)]="nuevoProveedor.producto_ofrecido" placeholder="Producto que ofrece"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">Precio</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.precio" placeholder="Ej: 45000"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Talla</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.talla" placeholder="Ej: S, M, L, XL"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Color</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.color" placeholder="Ej: Rojo, Azul..."/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">ID Inventario</label>
+          <label class="strix-label">ID Producto</label>
           <input type="number" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.fo_inventario" placeholder="ID del inventario"/>
+                 [(ngModel)]="nuevoProveedor.fo_productos" placeholder="ID del producto"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Contacto</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoProveedor.contacto" placeholder="Teléfono o correo"/>
+        </div>
+        <div class="col-12 col-md-8">
+          <label class="strix-label">Condiciones Comerciales</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoProveedor.condiciones_comerciales" placeholder="Condiciones de pago, entrega, etc."/>
         </div>
         <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
           <button class="btn-strix-sm" (click)="insertar()">
@@ -74,40 +69,35 @@
   <div class="strix-card" *ngIf="mostrarFormularioEditar">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-pencil-square"></i> Editar Producto
+        <i class="bi bi-pencil-square"></i> Editar Proveedor
       </div>
     </div>
     <div class="strix-card-body">
       <div class="row g-3">
         <div class="col-12 col-md-4">
-          <label class="strix-label">Nombre</label>
+          <label class="strix-label">Nombre Empresa</label>
           <input type="text" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.nombre"/>
+                 [(ngModel)]="proveedorEditar.nombre_empresa"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">Tipo</label>
+          <label class="strix-label">Producto Ofrecido</label>
           <input type="text" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.tipo"/>
+                 [(ngModel)]="proveedorEditar.producto_ofrecido"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">Precio</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.precio"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Talla</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.talla"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Color</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.color"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">ID Inventario</label>
+          <label class="strix-label">ID Producto</label>
           <input type="number" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.fo_inventario"/>
+                 [(ngModel)]="proveedorEditar.fo_productos"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Contacto</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="proveedorEditar.contacto"/>
+        </div>
+        <div class="col-12 col-md-8">
+          <label class="strix-label">Condiciones Comerciales</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="proveedorEditar.condiciones_comerciales"/>
         </div>
         <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
           <button class="btn-strix-sm" (click)="editar()">
@@ -122,11 +112,11 @@
     </div>
   </div>
 
-  <!-- TABLA DE PRODUCTOS -->
+  <!-- TABLA DE PROVEEDORES -->
   <div class="strix-card">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-list-ul"></i> Lista de Productos
+        <i class="bi bi-list-ul"></i> Lista de Proveedores
       </div>
     </div>
     <div class="tbl-wrap">
@@ -134,26 +124,23 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Nombre</th>
-            <th>Tipo</th>
-            <th>Precio</th>
-            <th>Talla</th>
-            <th>Color</th>
-            <th>Stock Actual</th>
-            <th>Stock Mínimo</th>
+            <th>Nombre Empresa</th>
+            <th>Producto Ofrecido</th>
+            <th>Producto (BD)</th>
+            <th>Contacto</th>
+            <th>Condiciones</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of productos ?? []">
-            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_productos }}</td>
-            <td><strong>{{ item.nombre }}</strong></td>
-            <td>{{ item.tipo }}</td>
-            <td>{{ item.precio }}</td>
-            <td>{{ item.talla }}</td>
-            <td>{{ item.color }}</td>
-            <td>{{ item.stock_actual }}</td>
-            <td>{{ item.stock_minimo }}</td>
+          <tr *ngFor="let item of proveedores ?? []">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_proveedor }}</td>
+            <td><strong>{{ item.nombre_empresa }}</strong></td>
+            <td>{{ item.producto_ofrecido }}</td>
+            <!-- Este viene del INNER JOIN con productos -->
+            <td>{{ item.nombre_producto }}</td>
+            <td>{{ item.contacto }}</td>
+            <td>{{ item.condiciones_comerciales }}</td>
             <td>
               <div class="tbl-actions">
                 <button class="btn-edit" title="Editar"
@@ -161,7 +148,7 @@
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button class="btn-del" title="Eliminar"
-                        (click)="eliminar(item.id_productos)">
+                        (click)="eliminar(item.id_proveedor)">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>

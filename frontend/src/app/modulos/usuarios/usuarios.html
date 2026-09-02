@@ -1,0 +1,148 @@
+<div class="main-content">
+
+  <!-- BREADCRUMB -->
+  <nav class="strix-breadcrumb" aria-label="breadcrumb">
+    <a href="#"><i class="bi bi-house-fill"></i></a>
+    <span class="sep">/</span>
+    <span class="current">Usuarios</span>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1><i class="bi bi-people" style="color:var(--strix-orange);margin-right:.4rem;"></i>Usuarios</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de usuarios del sistema</div>
+    </div>
+    <button class="btn-strix-sm" (click)="toggleFormulario()">
+      <i class="bi bi-plus-lg"></i> Nuevo Usuario
+    </button>
+  </div>
+
+  <!-- FORMULARIO INSERTAR -->
+  <div class="strix-card" *ngIf="mostrarFormulario">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-plus-circle"></i> Nuevo Usuario
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="strix-label">Usuario</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoUsuario.usuario" placeholder="Nombre de usuario"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="strix-label">Correo</label>
+          <input type="email" class="strix-input form-control"
+                 [(ngModel)]="nuevoUsuario.correo" placeholder="correo@ejemplo.com"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="strix-label">Clave</label>
+          <input type="password" class="strix-input form-control"
+                 [(ngModel)]="nuevoUsuario.clave" placeholder="Contraseña"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="strix-label">ID Rol</label>
+          <input type="number" class="strix-input form-control"
+                 [(ngModel)]="nuevoUsuario.fo_rol_usuario" placeholder="ID del rol"/>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="insertar()">
+            <i class="bi bi-save"></i> Guardar
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="toggleFormulario()">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULARIO EDITAR -->
+  <div class="strix-card" *ngIf="mostrarFormularioEditar">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-pencil-square"></i> Editar Usuario
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <label class="strix-label">Usuario</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="usuarioEditar.usuario"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="strix-label">Correo</label>
+          <input type="email" class="strix-input form-control"
+                 [(ngModel)]="usuarioEditar.correo"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="strix-label">Clave</label>
+          <input type="password" class="strix-input form-control"
+                 [(ngModel)]="usuarioEditar.clave"/>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="strix-label">ID Rol</label>
+          <input type="number" class="strix-input form-control"
+                 [(ngModel)]="usuarioEditar.fo_rol_usuario"/>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="editar()">
+            <i class="bi bi-save"></i> Guardar Cambios
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="mostrarFormularioEditar = false">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DE USUARIOS -->
+  <div class="strix-card">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-list-ul"></i> Lista de Usuarios
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of usuarios ?? []">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_usuarios }}</td>
+            <td><strong>{{ item.usuario }}</strong></td>
+            <td>{{ item.correo }}</td>
+            <!-- Este viene del INNER JOIN con rol_usuario -->
+            <td>{{ item.rol_administrador }}</td>
+            <td>
+              <div class="tbl-actions">
+                <button class="btn-edit" title="Editar"
+                        (click)="abrirEditar(item)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-del" title="Eliminar"
+                        (click)="eliminar(item.id_usuarios)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -6,12 +6,17 @@
 
       <div class="sidebar-section">Gestión</div>
       <a routerLink="/productos" routerLinkActive="active"><i class="bi bi-box-seam"></i> Productos e Inventario</a>
-      <a href="#"><i class="bi bi-cart3"></i> Ventas <span class="badge-count">3</span></a>
-      <a href="#"><i class="bi bi-truck"></i> Proveedores</a>
+      <a routerLink="/inventario" routerLinkActive="active"><i class="bi bi-archive"></i> Inventario</a>
+      <a routerLink="/ventas" routerLinkActive="active"><i class="bi bi-cart3"></i> Ventas</a>
+      <a routerLink="/compras" routerLinkActive="active"><i class="bi bi-bag"></i> Compras</a>
+      <a routerLink="/proveedores" routerLinkActive="active"><i class="bi bi-truck"></i> Proveedores</a>
+      <a routerLink="/rol-usuario" routerLinkActive="active"><i class="bi bi-shield"></i> Roles</a>
       <a href="#"><i class="bi bi-arrow-left-right"></i> Devoluciones</a>
 
       <div class="sidebar-section">Administración</div>
-      <a routerLink="/clientes" routerLinkActive="active"><i class="bi bi-people"></i> Usuarios</a>
+      <a routerLink="/usuarios" routerLinkActive="active">
+        <i class="bi bi-people"></i> Usuarios
+      </a>
       <a href="#"><i class="bi bi-person-badge"></i> Mi Perfil</a>
       <a href="#"><i class="bi bi-bell"></i> Notificaciones <span class="badge-count">2</span></a>
       <a href="#"><i class="bi bi-gear"></i> Ajustes</a>
