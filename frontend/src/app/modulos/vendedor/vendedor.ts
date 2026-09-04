@@ -1,40 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UsuariosService } from '../../servicios/usuarios';
+import { VendedorService } from '../../servicios/vendedor';
 import { RolUsuarioService } from '../../servicios/rol-usuario';
 
 @Component({
-  selector: 'app-usuarios',
+  selector: 'app-vendedor',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './usuarios.html',
-  styleUrl: './usuarios.css'
+  templateUrl: './vendedor.html',
+  styleUrl: './vendedor.css'
 })
-export class Usuarios implements OnInit {
+export class Vendedor implements OnInit {
 
-  usuarios: any;
+  vendedores: any;
   roles: any;
   mostrarFormulario: boolean = false;
   mostrarFormularioEditar: boolean = false;
   idEditando: number = 0;
 
-  nuevoUsuario: any = {
-    usuario: '',
-    correo: '',
-    clave: '',
+  nuevoVendedor: any = {
+    vendedor: '',
     fo_rol_usuario: ''
   };
 
-  usuarioEditar: any = {
-    usuario: '',
-    correo: '',
-    clave: '',
+  vendedorEditar: any = {
+    vendedor: '',
     fo_rol_usuario: ''
   };
 
   constructor(
-    private _usuariosService: UsuariosService,
+    private _vendedorService: VendedorService,
     private _rolUsuarioService: RolUsuarioService
   ) {}
 
@@ -57,23 +53,21 @@ export class Usuarios implements OnInit {
   }
 
   consulta() {
-    this._usuariosService.consulta().subscribe(
+    this._vendedorService.consulta().subscribe(
       (resultado: any) => {
-        this.usuarios = resultado;
+        this.vendedores = resultado;
       }
     );
   }
 
   insertar() {
-    this._usuariosService.insertar(this.nuevoUsuario).subscribe(
+    this._vendedorService.insertar(this.nuevoVendedor).subscribe(
       (resultado: any) => {
         alert(resultado.mensaje);
         this.consulta();
         this.mostrarFormulario = false;
-        this.nuevoUsuario = {
-          usuario: '',
-          correo: '',
-          clave: '',
+        this.nuevoVendedor = {
+          vendedor: '',
           fo_rol_usuario: ''
         };
       }
@@ -81,11 +75,9 @@ export class Usuarios implements OnInit {
   }
 
   abrirEditar(item: any) {
-    this.idEditando = item.id_usuarios;
-    this.usuarioEditar = {
-      usuario: item.usuario,
-      correo: item.correo,
-      clave: item.clave,
+    this.idEditando = item.id_vendedor;
+    this.vendedorEditar = {
+      vendedor: item.vendedor,
       fo_rol_usuario: item.fo_rol_usuario
     };
     this.mostrarFormularioEditar = true;
@@ -93,7 +85,7 @@ export class Usuarios implements OnInit {
   }
 
   editar() {
-    this._usuariosService.editar(this.idEditando, this.usuarioEditar).subscribe(
+    this._vendedorService.editar(this.idEditando, this.vendedorEditar).subscribe(
       (resultado: any) => {
         alert(resultado.mensaje);
         this.consulta();
@@ -103,9 +95,9 @@ export class Usuarios implements OnInit {
   }
 
   eliminar(id: number) {
-    const confirmacion = confirm('¿Está seguro de que desea eliminar este usuario?');
+    const confirmacion = confirm('¿Está seguro de que desea eliminar este vendedor?');
     if (confirmacion) {
-      this._usuariosService.eliminar(id).subscribe(
+      this._vendedorService.eliminar(id).subscribe(
         (resultado: any) => {
           alert(resultado.mensaje);
           this.consulta();

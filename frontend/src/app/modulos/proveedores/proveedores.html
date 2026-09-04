@@ -38,9 +38,13 @@
                  [(ngModel)]="nuevoProveedor.producto_ofrecido" placeholder="Producto que ofrece"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">ID Producto</label>
-          <input type="number" class="strix-input form-control"
-                 [(ngModel)]="nuevoProveedor.fo_productos" placeholder="ID del producto"/>
+            <label class="strix-label">Producto</label>
+            <select class="strix-input form-control" [(ngModel)]="nuevoProveedor.fo_productos">
+                <option value="">-- Seleccione producto --</option>
+                <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
+                {{ prod.nombre }}
+                </option>
+            </select>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Contacto</label>
@@ -85,9 +89,13 @@
                  [(ngModel)]="proveedorEditar.producto_ofrecido"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">ID Producto</label>
-          <input type="number" class="strix-input form-control"
-                 [(ngModel)]="proveedorEditar.fo_productos"/>
+            <label class="strix-label">Producto</label>
+            <select class="strix-input form-control" [(ngModel)]="proveedorEditar.fo_productos">
+                <option value="">-- Seleccione producto --</option>
+                <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
+                {{ prod.nombre }}
+                </option>
+            </select>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Contacto</label>

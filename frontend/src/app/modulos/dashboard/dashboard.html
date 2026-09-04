@@ -1,1 +1,108 @@
-<p>dashboard works!</p>
+<div class="main-content">
+
+  <!-- BREADCRUMB -->
+  <nav class="strix-breadcrumb" aria-label="breadcrumb">
+    <a href="#"><i class="bi bi-house-fill"></i></a>
+    <span class="sep">/</span>
+    <span class="current">Dashboard</span>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1><i class="bi bi-speedometer2" style="color:var(--strix-orange);margin-right:.4rem;"></i>Dashboard</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Resumen general de tu tienda</div>
+    </div>
+  </div>
+
+  <!-- STAT CARDS -->
+  <div class="row g-3">
+    <div class="col-6 col-xl-3">
+      <div class="stat-card">
+        <div class="stat-icon orange"><i class="bi bi-cash-coin"></i></div>
+        <div class="stat-body">
+          <div class="stat-label">Ingresos Totales</div>
+          <div class="stat-value">{{ totalIngresos | number:'1.0-0' }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="stat-card">
+        <div class="stat-icon blue"><i class="bi bi-bag-check"></i></div>
+        <div class="stat-body">
+          <div class="stat-label">Total Ventas</div>
+          <div class="stat-value">{{ totalVentas }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="stat-card">
+        <div class="stat-icon red"><i class="bi bi-exclamation-triangle"></i></div>
+        <div class="stat-body">
+          <div class="stat-label">Poco Stock</div>
+          <div class="stat-value">{{ productosPocoStock }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl-3">
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="bi bi-truck"></i></div>
+        <div class="stat-body">
+          <div class="stat-label">Total Compras</div>
+          <div class="stat-value">{{ compras.length }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICO -->
+  <div class="strix-card">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-bar-chart-fill"></i> Tendencia de Ventas Mensuales
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <canvas id="barChart" height="200"></canvas>
+    </div>
+  </div>
+
+  <!-- TABLA DE ÚLTIMOS PRODUCTOS -->
+  <div class="strix-card">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-list-ul"></i> Últimos Productos Registrados
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Stock</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of productos.slice(0, 5)">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_productos }}</td>
+            <td><strong>{{ item.nombre }}</strong></td>
+            <td>{{ item.stock_actual }}</td>
+            <td>
+              <span class="badge-stock"
+                    [ngClass]="{
+                      'activo': item.stock_actual > item.stock_minimo,
+                      'poco': item.stock_actual == item.stock_minimo,
+                      'agotado': item.stock_actual == 0
+                    }">
+                {{ item.stock_actual == 0 ? 'Agotado' : (item.stock_actual <= item.stock_minimo ? 'Poco Stock' : 'Activo') }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

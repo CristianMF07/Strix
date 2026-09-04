@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProveedorService } from '../../servicios/proveedor';
+import { ProductosService } from '../../servicios/productos';
 
 @Component({
   selector: 'app-proveedores',
@@ -13,6 +14,7 @@ import { ProveedorService } from '../../servicios/proveedor';
 export class Proveedores implements OnInit {
 
   proveedores: any;
+  productos: any;
   mostrarFormulario: boolean = false;
   mostrarFormularioEditar: boolean = false;
   idEditando: number = 0;
@@ -33,15 +35,27 @@ export class Proveedores implements OnInit {
     condiciones_comerciales: ''
   };
 
-  constructor(private _proveedorService: ProveedorService) {}
+  constructor(
+    private _proveedorService: ProveedorService,
+    private _productosService: ProductosService
+  ) {}
 
   ngOnInit(): void {
     this.consulta();
+    this.cargarProductos();
   }
 
   toggleFormulario() {
     this.mostrarFormulario = !this.mostrarFormulario;
     this.mostrarFormularioEditar = false;
+  }
+
+  cargarProductos() {
+    this._productosService.consulta().subscribe(
+      (resultado: any) => {
+        this.productos = resultado;
+      }
+    );
   }
 
   consulta() {

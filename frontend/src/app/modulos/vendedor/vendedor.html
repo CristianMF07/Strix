@@ -4,17 +4,17 @@
   <nav class="strix-breadcrumb" aria-label="breadcrumb">
     <a href="#"><i class="bi bi-house-fill"></i></a>
     <span class="sep">/</span>
-    <span class="current">Usuarios</span>
+    <span class="current">Vendedores</span>
   </nav>
 
   <!-- PAGE HEADER -->
   <div class="page-header">
     <div>
-      <h1><i class="bi bi-people" style="color:var(--strix-orange);margin-right:.4rem;"></i>Usuarios</h1>
-      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de usuarios del sistema</div>
+      <h1><i class="bi bi-person-badge" style="color:var(--strix-orange);margin-right:.4rem;"></i>Vendedores</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de vendedores</div>
     </div>
     <button class="btn-strix-sm" (click)="toggleFormulario()">
-      <i class="bi bi-plus-lg"></i> Nuevo Usuario
+      <i class="bi bi-plus-lg"></i> Nuevo Vendedor
     </button>
   </div>
 
@@ -22,29 +22,19 @@
   <div class="strix-card" *ngIf="mostrarFormulario">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-plus-circle"></i> Nuevo Usuario
+        <i class="bi bi-plus-circle"></i> Nuevo Vendedor
       </div>
     </div>
     <div class="strix-card-body">
       <div class="row g-3">
         <div class="col-12 col-md-6">
-          <label class="strix-label">Usuario</label>
+          <label class="strix-label">Nombre Vendedor</label>
           <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevoUsuario.usuario" placeholder="Nombre de usuario"/>
-        </div>
-        <div class="col-12 col-md-6">
-          <label class="strix-label">Correo</label>
-          <input type="email" class="strix-input form-control"
-                 [(ngModel)]="nuevoUsuario.correo" placeholder="correo@ejemplo.com"/>
-        </div>
-        <div class="col-12 col-md-6">
-          <label class="strix-label">Clave</label>
-          <input type="password" class="strix-input form-control"
-                 [(ngModel)]="nuevoUsuario.clave" placeholder="Contraseña"/>
+                 [(ngModel)]="nuevoVendedor.vendedor" placeholder="Nombre completo"/>
         </div>
         <div class="col-12 col-md-6">
           <label class="strix-label">Rol</label>
-          <select class="strix-input form-control" [(ngModel)]="nuevoUsuario.fo_rol_usuario">
+          <select class="strix-input form-control" [(ngModel)]="nuevoVendedor.fo_rol_usuario">
             <option value="">-- Seleccione rol --</option>
             <option *ngFor="let rol of roles ?? []" [value]="rol.id_rol_usuario">
               {{ rol.administrador }} - {{ rol.trabajador }} - {{ rol.otros_usuarios }}
@@ -68,29 +58,19 @@
   <div class="strix-card" *ngIf="mostrarFormularioEditar">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-pencil-square"></i> Editar Usuario
+        <i class="bi bi-pencil-square"></i> Editar Vendedor
       </div>
     </div>
     <div class="strix-card-body">
       <div class="row g-3">
         <div class="col-12 col-md-6">
-          <label class="strix-label">Usuario</label>
+          <label class="strix-label">Nombre Vendedor</label>
           <input type="text" class="strix-input form-control"
-                 [(ngModel)]="usuarioEditar.usuario"/>
-        </div>
-        <div class="col-12 col-md-6">
-          <label class="strix-label">Correo</label>
-          <input type="email" class="strix-input form-control"
-                 [(ngModel)]="usuarioEditar.correo"/>
-        </div>
-        <div class="col-12 col-md-6">
-          <label class="strix-label">Clave</label>
-          <input type="password" class="strix-input form-control"
-                 [(ngModel)]="usuarioEditar.clave"/>
+                 [(ngModel)]="vendedorEditar.vendedor"/>
         </div>
         <div class="col-12 col-md-6">
           <label class="strix-label">Rol</label>
-          <select class="strix-input form-control" [(ngModel)]="usuarioEditar.fo_rol_usuario">
+          <select class="strix-input form-control" [(ngModel)]="vendedorEditar.fo_rol_usuario">
             <option value="">-- Seleccione rol --</option>
             <option *ngFor="let rol of roles ?? []" [value]="rol.id_rol_usuario">
               {{ rol.administrador }} - {{ rol.trabajador }} - {{ rol.otros_usuarios }}
@@ -110,11 +90,11 @@
     </div>
   </div>
 
-  <!-- TABLA DE USUARIOS -->
+  <!-- TABLA DE VENDEDORES -->
   <div class="strix-card">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-list-ul"></i> Lista de Usuarios
+        <i class="bi bi-list-ul"></i> Lista de Vendedores
       </div>
     </div>
     <div class="tbl-wrap">
@@ -122,18 +102,15 @@
         <thead>
           <tr>
             <th>ID</th>
-            <th>Usuario</th>
-            <th>Correo</th>
+            <th>Vendedor</th>
             <th>Rol</th>
             <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let item of usuarios ?? []">
-            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_usuarios }}</td>
-            <td><strong>{{ item.usuario }}</strong></td>
-            <td>{{ item.correo }}</td>
-            <!-- Este viene del INNER JOIN con rol_usuario -->
+          <tr *ngFor="let item of vendedores ?? []">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_vendedor }}</td>
+            <td><strong>{{ item.vendedor }}</strong></td>
             <td>{{ item.rol_administrador }}</td>
             <td>
               <div class="tbl-actions">
@@ -142,7 +119,7 @@
                   <i class="bi bi-pencil"></i>
                 </button>
                 <button class="btn-del" title="Eliminar"
-                        (click)="eliminar(item.id_usuarios)">
+                        (click)="eliminar(item.id_vendedor)">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>

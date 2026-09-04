@@ -14,10 +14,12 @@
       <a href="#"><i class="bi bi-arrow-left-right"></i> Devoluciones</a>
 
       <div class="sidebar-section">Administración</div>
-      <a routerLink="/usuarios" routerLinkActive="active">
-        <i class="bi bi-people"></i> Usuarios
-      </a>
+      
       <a href="#"><i class="bi bi-person-badge"></i> Mi Perfil</a>
+      <a routerLink="/usuarios" routerLinkActive="active"><i class="bi bi-people"></i> Usuarios</a>
+      <a routerLink="/vendedor" routerLinkActive="active"><i class="bi bi-person-badge"></i> Vendedores</a>
+      <a routerLink="/estados" routerLinkActive="active"><i class="bi bi-toggle-on"></i> Estado Cliente</a>
+      <a routerLink="/clientes" routerLinkActive="active"><i class="bi bi-person-lines-fill"></i> Clientes</a>
       <a href="#"><i class="bi bi-bell"></i> Notificaciones <span class="badge-count">2</span></a>
       <a href="#"><i class="bi bi-gear"></i> Ajustes</a>
 
@@ -27,8 +29,8 @@
 
     </div>
     <div class="sidebar-footer">
-      <button class="btn-logout" onclick="window.location.href='login.html'">
-        <i class="bi bi-box-arrow-left"></i> Cerrar Sesión
+      <button class="btn-logout" (click)="cerrarSesion()">
+         <i class="bi bi-box-arrow-left"></i> Cerrar Sesión
       </button>
     </div>
   </aside>

@@ -50,7 +50,7 @@ class Cliente {
                     email,
                     direccion,
                     telefono,
-                    fecharegisto,
+                    fecharegistro,
                     fo_estado,
                     fo_usuario
                 ) VALUES(

@@ -38,25 +38,32 @@
 
         <h2>Iniciar Sesión</h2>
 
+        <!-- Mensaje de error si las credenciales son incorrectas -->
+        <div *ngIf="mensajeError" style="background:rgba(234,84,85,.15);color:#EA5455;padding:.6rem 1rem;border-radius:8px;font-size:.82rem;margin-bottom:1rem;text-align:center;">
+            {{ mensajeError }}
+        </div>
+
         <div class="mb-3">
             <label class="strix-label">Usuario</label>
-            <input type="text" class="form-control strix-input" placeholder="Tu usuario o correo" />
+            <input type="text" class="form-control strix-input" placeholder="Tu usuario o correo"
+                   [(ngModel)]="credenciales.usuario" name="usuario" />
         </div>
 
         <div class="mb-4">
             <label class="strix-label">Contraseña</label>
             <div class="strix-input-group">
-                <input type="password" class="form-control strix-input pe-5" id="pwField" placeholder="••••••••" />
+                <input type="password" class="form-control strix-input pe-5" id="pwField" placeholder="••••••••"
+                       [(ngModel)]="credenciales.clave" name="clave" />
                 <button class="toggle-pw" onclick="togglePw()" type="button" title="Mostrar/ocultar">
                     <i class="bi bi-eye" id="eyeIcon"></i>
                 </button>
             </div>
         </div>
 
-        <a routerLink="/dashboard" class="btn-strix"
+        <button (click)="ingresar()" class="btn-strix" type="button"
             style="text-decoration:none;display:flex;align-items:center;justify-content:center;">
             <i class="bi bi-box-arrow-in-right me-2"></i>Ingresar
-        </a>
+        </button>
 
         <div class="login-footer mt-3">
             ¿No tiene un usuario? <a href="#">Regístrese</a>

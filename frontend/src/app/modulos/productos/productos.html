@@ -53,9 +53,13 @@
                  [(ngModel)]="nuevoProducto.color" placeholder="Ej: Rojo, Azul..."/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">ID Inventario</label>
-          <input type="number" class="strix-input form-control"
-                 [(ngModel)]="nuevoProducto.fo_inventario" placeholder="ID del inventario"/>
+          <label class="strix-label">Inventario</label>
+          <select class="strix-input form-control" [(ngModel)]="nuevoProducto.fo_inventario">
+            <option value="">-- Seleccione inventario --</option>
+            <option *ngFor="let inv of inventarios ?? []" [value]="inv.id_inventario">
+              ID: {{ inv.id_inventario }} | Stock: {{ inv.stockactual }}
+            </option>
+          </select>
         </div>
         <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
           <button class="btn-strix-sm" (click)="insertar()">
@@ -105,9 +109,13 @@
                  [(ngModel)]="productoEditar.color"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">ID Inventario</label>
-          <input type="number" class="strix-input form-control"
-                 [(ngModel)]="productoEditar.fo_inventario"/>
+          <label class="strix-label">Inventario</label>
+          <select class="strix-input form-control" [(ngModel)]="productoEditar.fo_inventario">
+            <option value="">-- Seleccione inventario --</option>
+            <option *ngFor="let inv of inventarios ?? []" [value]="inv.id_inventario">
+              ID: {{ inv.id_inventario }} | Stock: {{ inv.stockactual }}
+            </option>
+          </select>
         </div>
         <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
           <button class="btn-strix-sm" (click)="editar()">

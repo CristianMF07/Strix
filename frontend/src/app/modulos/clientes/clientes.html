@@ -1,1 +1,189 @@
-<p>clientes works!</p>
+<div class="main-content">
+
+  <!-- BREADCRUMB -->
+  <nav class="strix-breadcrumb" aria-label="breadcrumb">
+    <a href="#"><i class="bi bi-house-fill"></i></a>
+    <span class="sep">/</span>
+    <span class="current">Clientes</span>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1><i class="bi bi-person-lines-fill" style="color:var(--strix-orange);margin-right:.4rem;"></i>Clientes</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de clientes</div>
+    </div>
+    <button class="btn-strix-sm" (click)="toggleFormulario()">
+      <i class="bi bi-plus-lg"></i> Nuevo Cliente
+    </button>
+  </div>
+
+  <!-- FORMULARIO INSERTAR -->
+  <div class="strix-card" *ngIf="mostrarFormulario">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-plus-circle"></i> Nuevo Cliente
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Nombre</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoCliente.nombre" placeholder="Nombre completo"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Email</label>
+          <input type="email" class="strix-input form-control"
+                 [(ngModel)]="nuevoCliente.email" placeholder="correo@ejemplo.com"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Teléfono</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoCliente.telefono" placeholder="Número de teléfono"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Dirección</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevoCliente.direccion" placeholder="Dirección"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Estado</label>
+          <select class="strix-input form-control" [(ngModel)]="nuevoCliente.fo_estado">
+            <option value="">-- Seleccione estado --</option>
+            <option *ngFor="let est of estados ?? []" [value]="est.id_estado">
+              {{ est.estado }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Usuario</label>
+          <select class="strix-input form-control" [(ngModel)]="nuevoCliente.fo_usuario">
+            <option value="">-- Seleccione usuario --</option>
+            <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">
+              {{ usu.usuario }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="insertar()">
+            <i class="bi bi-save"></i> Guardar
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="toggleFormulario()">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULARIO EDITAR -->
+  <div class="strix-card" *ngIf="mostrarFormularioEditar">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-pencil-square"></i> Editar Cliente
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Nombre</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="clienteEditar.nombre"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Email</label>
+          <input type="email" class="strix-input form-control"
+                 [(ngModel)]="clienteEditar.email"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Teléfono</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="clienteEditar.telefono"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Dirección</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="clienteEditar.direccion"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Estado</label>
+          <select class="strix-input form-control" [(ngModel)]="clienteEditar.fo_estado">
+            <option value="">-- Seleccione estado --</option>
+            <option *ngFor="let est of estados ?? []" [value]="est.id_estado">
+              {{ est.estado }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Usuario</label>
+          <select class="strix-input form-control" [(ngModel)]="clienteEditar.fo_usuario">
+            <option value="">-- Seleccione usuario --</option>
+            <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">
+              {{ usu.usuario }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="editar()">
+            <i class="bi bi-save"></i> Guardar Cambios
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="mostrarFormularioEditar = false">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DE CLIENTES -->
+  <div class="strix-card">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-list-ul"></i> Lista de Clientes
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Teléfono</th>
+            <th>Dirección</th>
+            <th>Estado</th>
+            <th>Usuario</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of clientes ?? []">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_cliente }}</td>
+            <td><strong>{{ item.nombre }}</strong></td>
+            <td>{{ item.email }}</td>
+            <td>{{ item.telefono }}</td>
+            <td>{{ item.direccion }}</td>
+            <td>{{ item.nombre_estado }}</td>
+            <td>{{ item.nombre_usuario_registro }}</td>
+            <td>
+              <div class="tbl-actions">
+                <button class="btn-edit" title="Editar"
+                        (click)="abrirEditar(item)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-del" title="Eliminar"
+                        (click)="eliminar(item.id_cliente)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

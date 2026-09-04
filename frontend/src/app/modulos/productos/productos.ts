@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductosService } from '../../servicios/productos';
+import { InventarioService } from '../../servicios/inventario';
 
 @Component({
   selector: 'app-productos',
@@ -12,19 +13,12 @@ import { ProductosService } from '../../servicios/productos';
 })
 export class ProductosComponent implements OnInit {
 
-  // Lista de productos de la base de datos
   productos: any;
-
-  // Controla si el formulario de insertar se muestra o no
+  inventarios: any;
   mostrarFormulario: boolean = false;
-
-  // Controla si el formulario de editar se muestra o no
   mostrarFormularioEditar: boolean = false;
-
-  // Guarda el id del producto que se está editando
   idEditando: number = 0;
 
-  // Objeto para el formulario de insertar
   nuevoProducto: any = {
     nombre: '',
     tipo: '',
@@ -34,7 +28,6 @@ export class ProductosComponent implements OnInit {
     fo_inventario: ''
   };
 
-  // Objeto para el formulario de editar
   productoEditar: any = {
     nombre: '',
     tipo: '',
@@ -44,19 +37,29 @@ export class ProductosComponent implements OnInit {
     fo_inventario: ''
   };
 
-  constructor(private _productosService: ProductosService) {}
+  constructor(
+    private _productosService: ProductosService,
+    private _inventarioService: InventarioService
+  ) {}
 
   ngOnInit(): void {
     this.consulta();
+    this.cargarInventarios();
   }
 
-  // Muestra u oculta el formulario de insertar
   toggleFormulario() {
     this.mostrarFormulario = !this.mostrarFormulario;
     this.mostrarFormularioEditar = false;
   }
 
-  // Consulta todos los productos
+  cargarInventarios() {
+    this._inventarioService.consulta().subscribe(
+      (resultado: any) => {
+        this.inventarios = resultado;
+      }
+    );
+  }
+
   consulta() {
     this._productosService.consulta().subscribe(
       (resultado: any) => {
@@ -65,7 +68,6 @@ export class ProductosComponent implements OnInit {
     );
   }
 
-  // Inserta un nuevo producto
   insertar() {
     this._productosService.insertar(this.nuevoProducto).subscribe(
       (resultado: any) => {
@@ -84,7 +86,6 @@ export class ProductosComponent implements OnInit {
     );
   }
 
-  // Abre el formulario de editar con los datos del producto seleccionado
   abrirEditar(item: any) {
     this.idEditando = item.id_productos;
     this.productoEditar = {
@@ -99,7 +100,6 @@ export class ProductosComponent implements OnInit {
     this.mostrarFormulario = false;
   }
 
-  // Guarda los cambios del producto editado
   editar() {
     this._productosService.editar(this.idEditando, this.productoEditar).subscribe(
       (resultado: any) => {
@@ -110,7 +110,6 @@ export class ProductosComponent implements OnInit {
     );
   }
 
-  // Elimina un producto por su id
   eliminar(id: number) {
     const confirmacion = confirm('¿Está seguro de que desea eliminar este producto?');
     if (confirmacion) {

@@ -1,1 +1,233 @@
-<p>ventas works!</p>
+<div class="main-content">
+
+  <!-- BREADCRUMB -->
+  <nav class="strix-breadcrumb" aria-label="breadcrumb">
+    <a href="#"><i class="bi bi-house-fill"></i></a>
+    <span class="sep">/</span>
+    <span class="current">Ventas</span>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1><i class="bi bi-cart3" style="color:var(--strix-orange);margin-right:.4rem;"></i>Ventas</h1>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de ventas</div>
+    </div>
+    <button class="btn-strix-sm" (click)="toggleFormulario()">
+      <i class="bi bi-plus-lg"></i> Nueva Venta
+    </button>
+  </div>
+
+  <!-- FORMULARIO INSERTAR -->
+  <div class="strix-card" *ngIf="mostrarFormulario">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-plus-circle"></i> Nueva Venta
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Fecha</label>
+          <input type="date" class="strix-input form-control"
+                 [(ngModel)]="nuevaVenta.fecha"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Usuario</label>
+          <select class="strix-input form-control" [(ngModel)]="nuevaVenta.fo_usuario">
+            <option value="">-- Seleccione usuario --</option>
+            <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">
+              {{ usu.usuario }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Producto</label>
+          <select class="strix-input form-control" [(ngModel)]="nuevaVenta.fo_productos">
+            <option value="">-- Seleccione producto --</option>
+            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
+              {{ prod.nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Cantidad</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevaVenta.cantidad" placeholder="Ej: 2"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Precio Unitario</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevaVenta.preciounitario" placeholder="Ej: 45000"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Subtotal</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevaVenta.subtotal" placeholder="Ej: 90000"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">IVA</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevaVenta.iva" placeholder="Ej: 17100"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Total</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="nuevaVenta.total" placeholder="Ej: 107100"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Vendedor</label>
+          <select class="strix-input form-control" [(ngModel)]="nuevaVenta.fo_vendedor">
+            <option value="">-- Seleccione vendedor --</option>
+            <option *ngFor="let vend of vendedores ?? []" [value]="vend.id_vendedor">
+              {{ vend.vendedor }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="insertar()">
+            <i class="bi bi-save"></i> Guardar
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="toggleFormulario()">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULARIO EDITAR -->
+  <div class="strix-card" *ngIf="mostrarFormularioEditar">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-pencil-square"></i> Editar Venta
+      </div>
+    </div>
+    <div class="strix-card-body">
+      <div class="row g-3">
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Fecha</label>
+          <input type="date" class="strix-input form-control"
+                 [(ngModel)]="ventaEditar.fecha"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Usuario</label>
+          <select class="strix-input form-control" [(ngModel)]="ventaEditar.fo_usuario">
+            <option value="">-- Seleccione usuario --</option>
+            <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">
+              {{ usu.usuario }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Producto</label>
+          <select class="strix-input form-control" [(ngModel)]="ventaEditar.fo_productos">
+            <option value="">-- Seleccione producto --</option>
+            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
+              {{ prod.nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Cantidad</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="ventaEditar.cantidad"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Precio Unitario</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="ventaEditar.preciounitario"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Subtotal</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="ventaEditar.subtotal"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">IVA</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="ventaEditar.iva"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Total</label>
+          <input type="text" class="strix-input form-control"
+                 [(ngModel)]="ventaEditar.total"/>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="strix-label">Vendedor</label>
+          <select class="strix-input form-control" [(ngModel)]="ventaEditar.fo_vendedor">
+            <option value="">-- Seleccione vendedor --</option>
+            <option *ngFor="let vend of vendedores ?? []" [value]="vend.id_vendedor">
+              {{ vend.vendedor }}
+            </option>
+          </select>
+        </div>
+        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
+          <button class="btn-strix-sm" (click)="editar()">
+            <i class="bi bi-save"></i> Guardar Cambios
+          </button>
+          <button class="btn-strix-sm" style="background:var(--strix-border);"
+                  (click)="mostrarFormularioEditar = false">
+            <i class="bi bi-x-lg"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA DE VENTAS -->
+  <div class="strix-card">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-list-ul"></i> Lista de Ventas
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Usuario</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unit.</th>
+            <th>Subtotal</th>
+            <th>IVA</th>
+            <th>Total</th>
+            <th>Vendedor</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of ventas ?? []">
+            <td style="color:var(--strix-muted);font-size:.75rem;">{{ item.id_ventas }}</td>
+            <td>{{ item.fecha }}</td>
+            <td>{{ item.nombre_usuario }}</td>
+            <td>{{ item.nombre_producto }}</td>
+            <td>{{ item.cantidad }}</td>
+            <td>{{ item.preciounitario }}</td>
+            <td>{{ item.subtotal }}</td>
+            <td>{{ item.iva }}</td>
+            <td>{{ item.total }}</td>
+            <td>{{ item.nombre_vendedor }}</td>
+            <td>
+              <div class="tbl-actions">
+                <button class="btn-edit" title="Editar"
+                        (click)="abrirEditar(item)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn-del" title="Eliminar"
+                        (click)="eliminar(item.id_ventas)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

@@ -10,11 +10,14 @@ import { Ventas } from './modulos/ventas/ventas';
 import { Compras } from './modulos/compras/compras';
 import { Inventario } from './modulos/inventario/inventario';
 import { RolUsuario } from './modulos/rol-usuario/rol-usuario';
-
+import { Vendedor } from './modulos/vendedor/vendedor';
+import { EstadoCliente } from './modulos/estado-cliente/estado-cliente';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
     {    
         path: '', component: Main,
+        canActivate: [authGuard],
         children: [
             {path: 'dashboard', component: Dashboard},
             {path: 'clientes', component: Clientes},
@@ -25,6 +28,8 @@ export const routes: Routes = [
             {path: 'compras', component: Compras},
             {path: 'inventario', component: Inventario},
             {path: 'rol-usuario', component: RolUsuario},
+            {path: 'vendedor', component: Vendedor},
+            {path: 'estados', component: EstadoCliente},
             {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
         ]
     },
