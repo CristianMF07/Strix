@@ -11,84 +11,166 @@
   <div class="page-header">
     <div>
       <h1><i class="bi bi-bag" style="color:var(--strix-orange);margin-right:.4rem;"></i>Compras</h1>
-      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de compras</div>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de pedidos a proveedores</div>
     </div>
     <button class="btn-strix-sm" (click)="toggleFormulario()">
-      <i class="bi bi-plus-lg"></i> Nueva Compra
+      <i class="bi bi-cart-plus"></i> Nuevo Pedido
     </button>
   </div>
 
-  <!-- FORMULARIO INSERTAR -->
+  <!-- RESUMEN DEL PEDIDO CONFIRMADO -->
+  <div class="strix-card" *ngIf="mostrarResumen">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-check-circle"></i> Pedido a Proveedor Guardado
+      </div>
+      <button class="btn-strix-sm" style="background:var(--strix-border);" (click)="cerrarResumen()">
+        <i class="bi bi-x-lg"></i> Cerrar
+      </button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unit.</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of ultimoPedido">
+            <td><strong>{{ item.nombre_producto }}</strong></td>
+            <td>{{ item.cantidades }}</td>
+            <td>{{ item.precio_unitario | number:'1.0-0' }}</td>
+            <td>{{ item.total | number:'1.0-0' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FORMULARIO DE PEDIDO (CARRITO) -->
   <div class="strix-card" *ngIf="mostrarFormulario">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-plus-circle"></i> Nueva Compra
+        <i class="bi bi-cart-plus"></i> Nuevo Pedido a Proveedor
       </div>
     </div>
     <div class="strix-card-body">
-      <div class="row g-3">
-        <div class="col-12 col-md-4">
+
+      <!-- Datos generales del pedido -->
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-md-6">
           <label class="strix-label">Fecha</label>
-          <input type="date" class="strix-input form-control"
-                 [(ngModel)]="nuevaCompra.fecha"/>
+          <input type="date" class="strix-input form-control" [(ngModel)]="pedido.fecha"/>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-6">
           <label class="strix-label">Proveedor</label>
-          <select class="strix-input form-control" [(ngModel)]="nuevaCompra.fo_proveedor">
+          <select class="strix-input form-control" [(ngModel)]="pedido.fo_proveedor">
             <option value="">-- Seleccione proveedor --</option>
             <option *ngFor="let prov of proveedores ?? []" [value]="prov.id_proveedor">
               {{ prov.nombre_empresa }}
             </option>
           </select>
         </div>
-        <div class="col-12 col-md-4">
+      </div>
+
+      <hr style="border-color:var(--strix-border);">
+
+      <!-- Agregar producto al carrito -->
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-5">
           <label class="strix-label">Producto</label>
-          <select class="strix-input form-control" [(ngModel)]="nuevaCompra.fo_productos">
+          <select class="strix-input form-control"
+                  [(ngModel)]="lineaActual.fo_productos"
+                  (ngModelChange)="onProductoSeleccionado()">
             <option value="">-- Seleccione producto --</option>
             <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
               {{ prod.nombre }}
             </option>
           </select>
         </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Cantidades</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaCompra.cantidades" placeholder="Ej: 10"/>
+        <div class="col-6 col-md-2">
+          <label class="strix-label">Cantidad</label>
+          <input type="number" class="strix-input form-control" min="1"
+                 [(ngModel)]="lineaActual.cantidades" placeholder="Ej: 10"/>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-6 col-md-3">
           <label class="strix-label">Precio Unitario</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaCompra.precio_unitario" placeholder="Ej: 30000"/>
+          <input type="number" class="strix-input form-control"
+                 [(ngModel)]="lineaActual.precio_unitario" placeholder="Ej: 30000"/>
         </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Subtotal</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaCompra.subtotal" placeholder="Ej: 300000"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">IVA</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaCompra.iva" placeholder="Ej: 57000"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Total</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaCompra.total" placeholder="Ej: 357000"/>
-        </div>
-        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
-          <button class="btn-strix-sm" (click)="insertar()">
-            <i class="bi bi-save"></i> Guardar
-          </button>
-          <button class="btn-strix-sm" style="background:var(--strix-border);"
-                  (click)="toggleFormulario()">
-            <i class="bi bi-x-lg"></i> Cancelar
+        <div class="col-12 col-md-2">
+          <button class="btn-strix-sm" style="width:100%;justify-content:center;" (click)="agregarAlCarrito()">
+            <i class="bi bi-plus-lg"></i> Agregar
           </button>
         </div>
       </div>
+
+      <!-- Carrito -->
+      <div class="tbl-wrap mt-4" *ngIf="carrito.length > 0">
+        <table class="strix-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unit.</th>
+              <th>Subtotal</th>
+              <th>IVA</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of carrito; let i = index">
+              <td><strong>{{ item.nombre_producto }}</strong></td>
+              <td style="max-width:90px;">
+                <input type="number" class="strix-input form-control" min="1"
+                       [(ngModel)]="item.cantidades"/>
+              </td>
+              <td style="max-width:110px;">
+                <input type="number" class="strix-input form-control"
+                       [(ngModel)]="item.precio_unitario"/>
+              </td>
+              <td>{{ subtotalItem(item) | number:'1.0-0' }}</td>
+              <td>{{ ivaItem(item) | number:'1.0-0' }}</td>
+              <td><strong>{{ totalItem(item) | number:'1.0-0' }}</strong></td>
+              <td>
+                <button class="btn-del" title="Quitar" (click)="quitarDelCarrito(i)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="carrito.length === 0" style="color:var(--strix-muted);font-size:.85rem;text-align:center;padding:1.5rem 0;">
+        Aún no ha agregado productos al pedido
+      </div>
+
+      <!-- Total general y confirmación -->
+      <div class="row mt-3" *ngIf="carrito.length > 0">
+        <div class="col-12" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;">
+          <div style="font-size:1rem;font-weight:700;color:var(--strix-text);">
+            Total del Pedido: <span style="color:var(--strix-orange);">{{ totalCarrito() | number:'1.0-0' }}</span>
+          </div>
+          <div style="display:flex;gap:.5rem;">
+            <button class="btn-strix-sm" (click)="confirmarPedido()">
+              <i class="bi bi-check-lg"></i> Confirmar Pedido
+            </button>
+            <button class="btn-strix-sm" style="background:var(--strix-border);" (click)="toggleFormulario()">
+              <i class="bi bi-x-lg"></i> Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- FORMULARIO EDITAR -->
+  <!-- FORMULARIO EDITAR (compra individual, funcionalidad original) -->
   <div class="strix-card" *ngIf="mostrarFormularioEditar">
     <div class="strix-card-header">
       <div class="strix-card-title">
@@ -99,51 +181,41 @@
       <div class="row g-3">
         <div class="col-12 col-md-4">
           <label class="strix-label">Fecha</label>
-          <input type="date" class="strix-input form-control"
-                 [(ngModel)]="compraEditar.fecha"/>
+          <input type="date" class="strix-input form-control" [(ngModel)]="compraEditar.fecha"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Proveedor</label>
           <select class="strix-input form-control" [(ngModel)]="compraEditar.fo_proveedor">
             <option value="">-- Seleccione proveedor --</option>
-            <option *ngFor="let prov of proveedores ?? []" [value]="prov.id_proveedor">
-              {{ prov.nombre_empresa }}
-            </option>
+            <option *ngFor="let prov of proveedores ?? []" [value]="prov.id_proveedor">{{ prov.nombre_empresa }}</option>
           </select>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Producto</label>
           <select class="strix-input form-control" [(ngModel)]="compraEditar.fo_productos">
             <option value="">-- Seleccione producto --</option>
-            <option *ngFor="let prod de productos ?? []" [value]="prod.id_productos">
-              {{ prod.nombre }}
-            </option>
+            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">{{ prod.nombre }}</option>
           </select>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Cantidades</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="compraEditar.cantidades"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="compraEditar.cantidades"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Precio Unitario</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="compraEditar.precio_unitario"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="compraEditar.precio_unitario"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Subtotal</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="compraEditar.subtotal"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="compraEditar.subtotal"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">IVA</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="compraEditar.iva"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="compraEditar.iva"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Total</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="compraEditar.total"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="compraEditar.total"/>
         </div>
         <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
           <button class="btn-strix-sm" (click)="editar()">
@@ -162,7 +234,7 @@
   <div class="strix-card">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-list-ul"></i> Lista de Compras
+        <i class="bi bi-list-ul"></i> Historial de Compras
       </div>
     </div>
     <div class="tbl-wrap">
@@ -194,12 +266,10 @@
             <td>{{ item.total }}</td>
             <td>
               <div class="tbl-actions">
-                <button class="btn-edit" title="Editar"
-                        (click)="abrirEditar(item)">
+                <button class="btn-edit" title="Editar" (click)="abrirEditar(item)">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn-del" title="Eliminar"
-                        (click)="eliminar(item.id_compras)">
+                <button class="btn-del" title="Eliminar" (click)="eliminar(item.id_compras)">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>

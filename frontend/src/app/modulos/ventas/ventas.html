@@ -11,30 +11,63 @@
   <div class="page-header">
     <div>
       <h1><i class="bi bi-cart3" style="color:var(--strix-orange);margin-right:.4rem;"></i>Ventas</h1>
-      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de ventas</div>
+      <div style="font-size:.78rem;color:var(--strix-muted);margin-top:.15rem;">Gestión de pedidos y ventas</div>
     </div>
     <button class="btn-strix-sm" (click)="toggleFormulario()">
-      <i class="bi bi-plus-lg"></i> Nueva Venta
+      <i class="bi bi-cart-plus"></i> Nuevo Pedido
     </button>
   </div>
 
-  <!-- FORMULARIO INSERTAR -->
+  <!-- RESUMEN DEL PEDIDO CONFIRMADO -->
+  <div class="strix-card" *ngIf="mostrarResumen">
+    <div class="strix-card-header">
+      <div class="strix-card-title">
+        <i class="bi bi-check-circle"></i> Pedido Guardado Correctamente
+      </div>
+      <button class="btn-strix-sm" style="background:var(--strix-border);" (click)="cerrarResumen()">
+        <i class="bi bi-x-lg"></i> Cerrar
+      </button>
+    </div>
+    <div class="tbl-wrap">
+      <table class="strix-table">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unit.</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of ultimoPedido">
+            <td><strong>{{ item.nombre_producto }}</strong></td>
+            <td>{{ item.cantidad }}</td>
+            <td>{{ item.preciounitario | number:'1.0-0' }}</td>
+            <td>{{ item.total | number:'1.0-0' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FORMULARIO DE PEDIDO (CARRITO) -->
   <div class="strix-card" *ngIf="mostrarFormulario">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-plus-circle"></i> Nueva Venta
+        <i class="bi bi-cart-plus"></i> Nuevo Pedido
       </div>
     </div>
     <div class="strix-card-body">
-      <div class="row g-3">
+
+      <!-- Datos generales del pedido -->
+      <div class="row g-3 mb-3">
         <div class="col-12 col-md-4">
           <label class="strix-label">Fecha</label>
-          <input type="date" class="strix-input form-control"
-                 [(ngModel)]="nuevaVenta.fecha"/>
+          <input type="date" class="strix-input form-control" [(ngModel)]="pedido.fecha"/>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">Usuario</label>
-          <select class="strix-input form-control" [(ngModel)]="nuevaVenta.fo_usuario">
+          <label class="strix-label">Cliente / Usuario</label>
+          <select class="strix-input form-control" [(ngModel)]="pedido.fo_usuario">
             <option value="">-- Seleccione usuario --</option>
             <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">
               {{ usu.usuario }}
@@ -42,62 +75,112 @@
           </select>
         </div>
         <div class="col-12 col-md-4">
-          <label class="strix-label">Producto</label>
-          <select class="strix-input form-control" [(ngModel)]="nuevaVenta.fo_productos">
-            <option value="">-- Seleccione producto --</option>
-            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
-              {{ prod.nombre }}
-            </option>
-          </select>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Cantidad</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaVenta.cantidad" placeholder="Ej: 2"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Precio Unitario</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaVenta.preciounitario" placeholder="Ej: 45000"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Subtotal</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaVenta.subtotal" placeholder="Ej: 90000"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">IVA</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaVenta.iva" placeholder="Ej: 17100"/>
-        </div>
-        <div class="col-12 col-md-4">
-          <label class="strix-label">Total</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="nuevaVenta.total" placeholder="Ej: 107100"/>
-        </div>
-        <div class="col-12 col-md-4">
           <label class="strix-label">Vendedor</label>
-          <select class="strix-input form-control" [(ngModel)]="nuevaVenta.fo_vendedor">
+          <select class="strix-input form-control" [(ngModel)]="pedido.fo_vendedor">
             <option value="">-- Seleccione vendedor --</option>
             <option *ngFor="let vend of vendedores ?? []" [value]="vend.id_vendedor">
               {{ vend.vendedor }}
             </option>
           </select>
         </div>
-        <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
-          <button class="btn-strix-sm" (click)="insertar()">
-            <i class="bi bi-save"></i> Guardar
-          </button>
-          <button class="btn-strix-sm" style="background:var(--strix-border);"
-                  (click)="toggleFormulario()">
-            <i class="bi bi-x-lg"></i> Cancelar
+      </div>
+
+      <hr style="border-color:var(--strix-border);">
+
+      <!-- Agregar producto al carrito -->
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-5">
+          <label class="strix-label">Producto</label>
+          <select class="strix-input form-control"
+                  [(ngModel)]="lineaActual.fo_productos"
+                  (ngModelChange)="onProductoSeleccionado()">
+            <option value="">-- Seleccione producto --</option>
+            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
+              {{ prod.nombre }}
+            </option>
+          </select>
+        </div>
+        <div class="col-6 col-md-2">
+          <label class="strix-label">Cantidad</label>
+          <input type="number" class="strix-input form-control" min="1"
+                 [(ngModel)]="lineaActual.cantidad" placeholder="Ej: 2"/>
+        </div>
+        <div class="col-6 col-md-3">
+          <label class="strix-label">Precio Unitario</label>
+          <input type="number" class="strix-input form-control"
+                 [(ngModel)]="lineaActual.preciounitario" placeholder="Ej: 45000"/>
+        </div>
+        <div class="col-12 col-md-2">
+          <button class="btn-strix-sm" style="width:100%;justify-content:center;" (click)="agregarAlCarrito()">
+            <i class="bi bi-plus-lg"></i> Agregar
           </button>
         </div>
       </div>
+
+      <!-- Carrito -->
+      <div class="tbl-wrap mt-4" *ngIf="carrito.length > 0">
+        <table class="strix-table">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Precio Unit.</th>
+              <th>Subtotal</th>
+              <th>IVA</th>
+              <th>Total</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of carrito; let i = index">
+              <td><strong>{{ item.nombre_producto }}</strong></td>
+              <td style="max-width:90px;">
+                <!-- Cantidad editable directamente dentro del carrito -->
+                <input type="number" class="strix-input form-control" min="1"
+                       [(ngModel)]="item.cantidad"/>
+              </td>
+              <td style="max-width:110px;">
+                <input type="number" class="strix-input form-control"
+                       [(ngModel)]="item.preciounitario"/>
+              </td>
+              <td>{{ subtotalItem(item) | number:'1.0-0' }}</td>
+              <td>{{ ivaItem(item) | number:'1.0-0' }}</td>
+              <td><strong>{{ totalItem(item) | number:'1.0-0' }}</strong></td>
+              <td>
+                <button class="btn-del" title="Quitar" (click)="quitarDelCarrito(i)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div *ngIf="carrito.length === 0" style="color:var(--strix-muted);font-size:.85rem;text-align:center;padding:1.5rem 0;">
+        Aún no ha agregado productos al pedido
+      </div>
+
+      <!-- Total general y confirmación -->
+      <div class="row mt-3" *ngIf="carrito.length > 0">
+        <div class="col-12" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;">
+          <div style="font-size:1rem;font-weight:700;color:var(--strix-text);">
+            Total del Pedido: <span style="color:var(--strix-orange);">{{ totalCarrito() | number:'1.0-0' }}</span>
+          </div>
+          <div style="display:flex;gap:.5rem;">
+            <button class="btn-strix-sm" (click)="confirmarPedido()">
+              <i class="bi bi-check-lg"></i> Confirmar Pedido
+            </button>
+            <button class="btn-strix-sm" style="background:var(--strix-border);" (click)="toggleFormulario()">
+              <i class="bi bi-x-lg"></i> Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- FORMULARIO EDITAR -->
+  <!-- FORMULARIO EDITAR (venta individual, funcionalidad original) -->
   <div class="strix-card" *ngIf="mostrarFormularioEditar">
     <div class="strix-card-header">
       <div class="strix-card-title">
@@ -108,59 +191,47 @@
       <div class="row g-3">
         <div class="col-12 col-md-4">
           <label class="strix-label">Fecha</label>
-          <input type="date" class="strix-input form-control"
-                 [(ngModel)]="ventaEditar.fecha"/>
+          <input type="date" class="strix-input form-control" [(ngModel)]="ventaEditar.fecha"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Usuario</label>
           <select class="strix-input form-control" [(ngModel)]="ventaEditar.fo_usuario">
             <option value="">-- Seleccione usuario --</option>
-            <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">
-              {{ usu.usuario }}
-            </option>
+            <option *ngFor="let usu of usuarios ?? []" [value]="usu.id_usuarios">{{ usu.usuario }}</option>
           </select>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Producto</label>
           <select class="strix-input form-control" [(ngModel)]="ventaEditar.fo_productos">
             <option value="">-- Seleccione producto --</option>
-            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">
-              {{ prod.nombre }}
-            </option>
+            <option *ngFor="let prod of productos ?? []" [value]="prod.id_productos">{{ prod.nombre }}</option>
           </select>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Cantidad</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="ventaEditar.cantidad"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="ventaEditar.cantidad"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Precio Unitario</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="ventaEditar.preciounitario"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="ventaEditar.preciounitario"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Subtotal</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="ventaEditar.subtotal"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="ventaEditar.subtotal"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">IVA</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="ventaEditar.iva"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="ventaEditar.iva"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Total</label>
-          <input type="text" class="strix-input form-control"
-                 [(ngModel)]="ventaEditar.total"/>
+          <input type="text" class="strix-input form-control" [(ngModel)]="ventaEditar.total"/>
         </div>
         <div class="col-12 col-md-4">
           <label class="strix-label">Vendedor</label>
           <select class="strix-input form-control" [(ngModel)]="ventaEditar.fo_vendedor">
             <option value="">-- Seleccione vendedor --</option>
-            <option *ngFor="let vend of vendedores ?? []" [value]="vend.id_vendedor">
-              {{ vend.vendedor }}
-            </option>
+            <option *ngFor="let vend of vendedores ?? []" [value]="vend.id_vendedor">{{ vend.vendedor }}</option>
           </select>
         </div>
         <div class="col-12" style="display:flex;gap:.5rem;justify-content:flex-end;">
@@ -180,7 +251,7 @@
   <div class="strix-card">
     <div class="strix-card-header">
       <div class="strix-card-title">
-        <i class="bi bi-list-ul"></i> Lista de Ventas
+        <i class="bi bi-list-ul"></i> Historial de Ventas
       </div>
     </div>
     <div class="tbl-wrap">
@@ -214,12 +285,10 @@
             <td>{{ item.nombre_vendedor }}</td>
             <td>
               <div class="tbl-actions">
-                <button class="btn-edit" title="Editar"
-                        (click)="abrirEditar(item)">
+                <button class="btn-edit" title="Editar" (click)="abrirEditar(item)">
                   <i class="bi bi-pencil"></i>
                 </button>
-                <button class="btn-del" title="Eliminar"
-                        (click)="eliminar(item.id_ventas)">
+                <button class="btn-del" title="Eliminar" (click)="eliminar(item.id_ventas)">
                   <i class="bi bi-trash"></i>
                 </button>
               </div>
