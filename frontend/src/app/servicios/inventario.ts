@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class InventarioService {
-  url = 'http://localhost/proyectos/Strix/backend/controladores/inventario.php';
+  url = 'http://strixshopmanager.infinityfree.me/backend/controladores/inventario.php';
 
   constructor(private http: HttpClient) {}
 

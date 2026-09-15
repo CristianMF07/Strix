@@ -32,7 +32,6 @@ switch($control){
     break;
 }
 
-echo json_encode($vec);
 header('Content-Type: application/json');
-
+echo json_encode($vec);
 ?>

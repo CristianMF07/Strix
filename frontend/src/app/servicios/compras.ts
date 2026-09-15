@@ -5,8 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ComprasService {
-  url = 'http://localhost/proyectos/Strix/backend/controladores/compras.php';
-
+  url = 'http://strixshopmanager.infinityfree.me/backend/controladores/compras.php';
   constructor(private http: HttpClient) {}
 
   consulta() {

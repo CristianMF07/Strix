@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class RolUsuarioService {
-  url = 'http://localhost/proyectos/Strix/backend/controladores/rol_usuario.php';
+  url = 'http://strixshopmanager.infinityfree.me/backend/controladores/rol_usuario.php';
 
   constructor(private http: HttpClient) {}
 
